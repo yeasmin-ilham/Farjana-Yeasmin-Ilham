@@ -204,9 +204,9 @@ export default function LandingPage() {
         </div>
 
         {/* ── Text Block (bottom-left) ── */}
-        <div className="relative z-10 mt-auto px-8 pb-14 max-w-lg">
+        <div className="relative z-10 mt-auto px-8 pb-22 max-w-lg">
           <h1
-            className="text-6xl font-semibold text-primary mb-15"
+            className="text-6xl font-semibold text-primary mb-10"
           >
             The Gift Guide
           </h1>
