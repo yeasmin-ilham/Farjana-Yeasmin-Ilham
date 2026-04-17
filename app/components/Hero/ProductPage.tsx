@@ -7,157 +7,158 @@ import Img3 from "@/app/assets/productImg/image 824.png"
 import Img4 from "@/app/assets/productImg/image 825.png"
 import Img5 from "@/app/assets/productImg/image 826.png"
 import Img6 from "@/app/assets/productImg/image 827.png"
-
 import Image from "next/image";
 
 
-const products = [
+const galleryImages = [
   {
     id: 1,
-    image: Img1,
-    pin: { x: 55, y: 72 },
-    tag: { name: "Leather Tote Bag", price: "$189", category: "Accessories" },
+    src: Img1,
+    alt: "Black leather handbag with crossbody strap",
+    hotspots: [{ x: 52, y: 72, label: "Leather Tote Bag", price: "$189" }],
   },
   {
     id: 2,
-    image: Img2,
-    pin: { x: 60, y: 55 },
-    tag: { name: "Velvet Blazer", price: "$349", category: "Outerwear" },
+    src: Img2,
+    alt: "Man in blue floral blazer with bow tie",
+    hotspots: [{ x: 60, y: 68, label: "Floral Velvet Blazer", price: "$320" }],
   },
   {
     id: 3,
-    image: Img3,
-    pin: { x: 52, y: 38 },
-    tag: { name: "Buffalo Plaid Shirt", price: "$98", category: "Tops" },
+    src: Img3,
+    alt: "Red and black plaid flannel shirt",
+    hotspots: [{ x: 68, y: 38, label: "Buffalo Plaid Shirt", price: "$79" }],
   },
   {
     id: 4,
-    image: Img4,
-    pin: { x: 48, y: 42 },
-    tag: { name: "Moto Leather Jacket", price: "$425", category: "Outerwear" },
+    src: Img4,
+    alt: "Woman in black leather moto jacket",
+    hotspots: [{ x: 45, y: 52, label: "Quilted Moto Jacket", price: "$265" }],
   },
   {
     id: 5,
-    image: Img5,
-    pin: { x: 50, y: 55 },
-    tag: { name: "Varsity Jacket", price: "$210", category: "Outerwear" },
+    src:Img5,
+    alt: "Person in grey varsity letterman jacket",
+    hotspots: [{ x: 50, y: 55, label: "Varsity Jacket", price: "$145" }],
   },
   {
     id: 6,
-    image: Img6,
-    pin: { x: 68, y: 62 },
-    tag: { name: "Denim Jacket", price: "$145", category: "Outerwear" },
+    src:Img6,
+    alt: "Blonde woman in denim jacket with sunglasses",
+    hotspots: [{ x: 72, y: 62, label: "Classic Denim Jacket", price: "$110" }],
   },
 ];
 
-export default function ProductPage() {
-  const [activePin, setActivePin] = useState(null);
+interface ActivePin {
+  imageId: number;
+  hotspotIndex: number;
+}
 
-  const handlePinClick = (e, id) => {
+export default function ShoppableGallery() {
+  const [activePin, setActivePin] = useState<ActivePin | null>(null);
+
+  const handlePinClick = (
+    e: React.MouseEvent,
+    imageId: number,
+    hotspotIndex: number
+  ) => {
     e.stopPropagation();
-    setActivePin(activePin === id ? null : id);
+    if (
+      activePin?.imageId === imageId &&
+      activePin?.hotspotIndex === hotspotIndex
+    ) {
+      setActivePin(null);
+    } else {
+      setActivePin({ imageId, hotspotIndex });
+    }
   };
 
   return (
     <section
-      className="w-full max-w-6xl mx-auto px-6 py-16 font-sans"
-      onClick={() => setActivePin(null)}>
-
-      {/* Header */}
-      <div className="mb-10">
-        <p className="text-xs tracking-[0.25em] uppercase text-neutral-400 mb-2 font-light">
-          Community
-        </p>
-        <h2
-          className="text-4xl md:text-5xl font-light text-neutral-900 leading-tight"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-        >
-          Tisso vision{" "}
-          <em className="italic text-neutral-500">in the wild</em>
-        </h2>
-      </div>
+      className="w-full max-w-6xl mx-auto px-6 py-12"
+      onClick={() => setActivePin(null)}
+    >
+      {/* Heading */}
+      <h2 className="text-3xl font-serif font-normal text-gray-900 mb-8 tracking-tight">
+        Tisso vison in the wild
+      </h2>
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {products.map((item) => (
+        {galleryImages.map((image) => (
           <div
-            key={item.id}
-            className="relative overflow-hidden bg-neutral-100 group cursor-pointer"
-            
+            key={image.id}
+            className="relative overflow-hidden bg-gray-100  group"
           >
-            {/* Image */}
+            {/* Photo */}
             <Image
-              src={item.image}
-              alt={item.tag.name}
-              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              src={image.src}
+              alt={image.alt}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
 
-            {/* Subtle dark overlay on hover */}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+            {/* Hotspot Pins */}
+            {image.hotspots.map((hotspot, index) => {
+              const isActive =
+                activePin?.imageId === image.id &&
+                activePin?.hotspotIndex === index;
 
-            {/* Pin button */}
-            <button
-              onClick={(e) => handlePinClick(e, item.id)}
-              className={`
-                absolute z-10 w-8 h-8 rounded-full border-2 border-white bg-white/90
-                flex items-center justify-center shadow-md
-                transition-all duration-200 hover:scale-110 hover:bg-white
-                ${activePin === item.id ? "scale-110 bg-neutral-900 border-neutral-900" : ""}
-              `}
-              style={{
-                left: `${item.pin.x}%`,
-                top: `${item.pin.y}%`,
-                transform: "translate(-50%, -50%)",
-              }}
-              aria-label={`Shop ${item.tag.name}`}
-            >
-              <svg
-                className={`w-3.5 h-3.5 transition-colors duration-200 ${
-                  activePin === item.id ? "text-white" : "text-neutral-900"
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                strokeWidth={2.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
-            </button>
-
-            {/* Product tooltip */}
-            {activePin === item.id && (
-              <div
-                className="absolute z-20 bg-white shadow-xl border border-neutral-100 px-4 py-3 min-w-[160px] animate-fadeIn"
-                style={{
-                  left: `${Math.min(item.pin.x, 65)}%`,
-                  top: `${Math.max(item.pin.y - 28, 8)}%`,
-                  transform: "translateX(-50%)",
-                }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <p className="text-[10px] tracking-widest uppercase text-neutral-400 mb-0.5">
-                  {item.tag.category}
-                </p>
-                <p
-                  className="text-sm font-medium text-neutral-900 leading-snug"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              return (
+                <div
+                  key={index}
+                  className="absolute"
+                  style={{ left: `${hotspot.x}%`, top: `${hotspot.y}%` }}
                 >
-                  {item.tag.name}
-                </p>
-                <div className="flex items-center justify-between mt-2 pt-2 border-t border-neutral-100">
-                  <span className="text-sm font-semibold text-neutral-900">
-                    {item.tag.price}
-                  </span>
-                  <button className="text-[10px] tracking-widest uppercase text-neutral-500 hover:text-neutral-900 transition-colors">
-                    Shop →
+                  {/* Tooltip */}
+                  {isActive && (
+                    <div
+                      className="absolute z-20 bottom-full mb-3 left-1/2 -translate-x-1/2
+                        bg-white shadow-xl rounded-sm px-4 py-3 min-w-[160px]
+                        border border-gray-100 pointer-events-none"
+                    >
+                      <p className="text-xs font-semibold text-gray-800 whitespace-nowrap">
+                        {hotspot.label}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-0.5">
+                        {hotspot.price}
+                      </p>
+                      {/* Arrow */}
+                      <div
+                        className="absolute top-full left-1/2 -translate-x-1/2
+                          border-4 border-transparent border-t-white"
+                      />
+                    </div>
+                  )}
+
+                  {/* Pin Button */}
+                  <button
+                    onClick={(e) => handlePinClick(e, image.id, index)}
+                    className={`
+                      w-8 h-8 rounded-full flex items-center justify-center
+                      -translate-x-1/2 -translate-y-1/2
+                      border-2 border-white shadow-md
+                      transition-all duration-200 cursor-pointer
+                      ${
+                        isActive
+                          ? "bg-gray-900 scale-110"
+                          : "bg-white/90 hover:bg-white hover:scale-110"
+                      }
+                    `}
+                    aria-label={`View product: ${hotspot.label}`}
+                  >
+                    <span
+                      className={`text-lg leading-none select-none font-light
+                        ${isActive ? "text-white" : "text-gray-800"}`}
+                    >
+                      +
+                    </span>
                   </button>
                 </div>
-              </div>
-            )}
+              );
+            })}
           </div>
         ))}
       </div>
-
     </section>
   );
 }

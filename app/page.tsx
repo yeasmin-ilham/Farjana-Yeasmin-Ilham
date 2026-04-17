@@ -1,6 +1,7 @@
+
 import LandingPage from "./components/Hero/LandingPage";
 import ProductPage from "./components/Hero/ProductPage";
-import Test from "./components/Hero/Test";
+
 
 
 export default function Home() {
