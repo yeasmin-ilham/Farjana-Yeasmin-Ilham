@@ -204,7 +204,7 @@ export default function LandingPage() {
         </div>
 
         {/* ── Text Block (bottom-left) ── */}
-        <div className="relative z-10 mt-auto px-8 pb-12 max-w-lg">
+        <div className="relative z-10 mt-auto px-8 pb-30 max-w-lg">
           <h1
             className="text-6xl font-semibold text-primary mb-10"
           >
