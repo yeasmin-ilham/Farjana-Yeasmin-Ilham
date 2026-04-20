@@ -16,7 +16,7 @@ export default function LandingPage() {
              <nav className="flex items-center justify-between px-8 py-2 bg-gray-100 relative z-30 backdrop-blur-2xl">
         <span className="text-[15px] font-bold text-primary tracking-[0.18em] uppercase">Tisso Vison</span>
         <span className="text-[13px] text-gray-800 tracking-tight hidden md:block">Find the ideal gift for your loved ones.</span>
-        <button  className="bg-secondary hover:bg-primary hover:text-white transition-all duration-300 cursor-pointer text-gray-900 px-5 py-2.5 text-xs uppercase flex items-center gap-3">
+        <button  className="btn-slide">
           Choose Gift <span className="text-base">→</span>
         </button>
       </nav>
@@ -41,7 +41,7 @@ export default function LandingPage() {
             delight your loved ones this holiday season.
           </p>
           <div className={`flex items-center gap-4 fade-up delay-3`}>
-            <button className="bg-primary px-7 py-3 hover:bg-secondary hover:text-primary transition-all duration-300 cursor-pointer text-xs font-medium tracking-[0.15em] uppercase flex items-center gap-3">
+            <button className="btn-slide">
               Shop Now <span className="text-base">→</span>
             </button>
           </div>
